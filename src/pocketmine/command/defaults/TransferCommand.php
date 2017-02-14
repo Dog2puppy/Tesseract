@@ -21,7 +21,6 @@ class TransferCommand extends VanillaCommand{
     }
 
     public function execute(CommandSender $sender, $currentAlias, array $args){
-
         if(!$sender instanceof Player){
 
             $sender->sendMessage("Run command in-game");
@@ -38,5 +37,5 @@ class TransferCommand extends VanillaCommand{
         $pk->address = $args[0];
         $pk->port = $args[1];
         $sender->dataPacket($pk);
-}
-    }
+	}
+ }
