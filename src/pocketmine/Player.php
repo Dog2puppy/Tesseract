@@ -3565,7 +3565,26 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	
 	/** @var string[] */
 	private $messageQueue = [];
-
+	
+	/**
+ 	 *
+ 	 * @param string $address Adress is the IP of the target server
+ 	 * @param int    $port    The port of the target server. If none is specified, it uses the default (19132)
+ 	 *
+ 	 * @return bool if transfer was successful.
+ 	 */
+ 	public function transfer(string $address, int $port = 19132) : bool{
+ 		$this->server->getPluginManager()->callEvent($ev = new PlayerTransferEvent($this, $address, $port));
+ 		if(!$ev->isCancelled()){
+			$pk = new TransferPacket();
+ 			$pk->address = $ev->getAddress();
+ 			$pk->port = $ev->getPort();
+ 			$this->dataPacket($pk);
+ 			$this->close($this->getDisplayName() . " transferred to another server", "transferred to another server", false);
+ 			return true;
+ 		}
+ 		return false;
+	}
 	/**
 	 * Sends a direct chat message to a player
 	 *
