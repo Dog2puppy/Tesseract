@@ -88,7 +88,7 @@ class BanList{
 
 		$this->list[$entry->getName()] = $entry;
 		$this->save();
-
+        $target->kick($reason);
 		return $entry;
 	}
 
